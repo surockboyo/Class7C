@@ -1,0 +1,9 @@
+{
+  "name": "ruang-kelas",
+  "private": true,
+  "description": "Only used to run the built-in Node.js test runner. No dependencies, no build step.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

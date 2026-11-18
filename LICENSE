@@ -1,0 +1,13 @@
+Copyright (c) 2026 FarskyRF. All rights reserved.
+
+This repository and its contents (source code, design, text and assets
+created for this project) are the property of FarskyRF.
+
+The code is publicly visible on GitHub, but no permission is granted to
+copy, modify, distribute, publish or use it, in whole or in part, without
+prior written permission from the copyright holder.
+
+Third-party components keep their own licenses:
+- Supabase JS client (assets/vendor/) - MIT License, see its license file.
+- Self-hosted fonts (assets/fonts/) - SIL Open Font License 1.1, see the
+  license file next to the fonts.

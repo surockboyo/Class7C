@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="id" data-theme="dark" data-accent="red">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ruang Kelas · SMPN 62 Surabaya</title>
+  <meta name="description" content="Papan kabar kelas SMPN 62 Surabaya: jadwal pelajaran, PR, jadwal ulangan, kisi-kisi, dan pengumuman.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#140A05">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+  <link rel="preload" href="./assets/fonts/atkinson-hyperlegible-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/source-serif-4-var.woff2" as="font" type="font/woff2" crossorigin>
+  <script>
+    /* Theme bootstrap: runs BEFORE the stylesheet so the page never flashes
+       the wrong theme. This is the only code that reads localStorage
+       directly (keys "rk.theme" / "rk.accent", owned by assets/js/storage.js),
+       because ES modules load too late to prevent the flash.
+       The colours below must match --bg in assets/css/styles.css. */
+    (function () {
+      var root = document.documentElement;
+      var theme = null;
+      var accent = null;
+      try {
+        theme = localStorage.getItem('rk.theme');
+        accent = localStorage.getItem('rk.accent');
+      } catch (err) {
+        /* Storage blocked (e.g. strict privacy mode): fall back to the system theme. */
+        console.warn('Preferensi tema tidak bisa dibaca:', err);
+      }
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = 'dark';
+      }
+      if (['red', 'periwinkle', 'green', 'teal', 'orange'].indexOf(accent) === -1) {
+        accent = 'red';
+      }
+      root.setAttribute('data-theme', theme);
+      root.setAttribute('data-accent', accent);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) { meta.setAttribute('content', theme === 'dark' ? '#140A05' : '#F8F4EE'); }
+    })();
+  </script>
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <script type="module" src="./assets/js/app.js"></script>
+</head>
+<body>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Langsung ke isi</a>
+
+  <!-- Icon set: one line style, 24px grid, 1.75px stroke (set in CSS). -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.75l8.5 6.75"/><path d="M5.5 9v11h4.75v-5.5h3.5V20h4.75V9"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M3.75 5h5.5A2.75 2.75 0 0 1 12 7.75V20a2 2 0 0 0-2-2H3.75z"/><path d="M20.25 5h-5.5A2.75 2.75 0 0 0 12 7.75V20a2 2 0 0 1 2-2h6.25z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.75" y="5.25" width="16.5" height="15" rx="2"/><path d="M3.75 9.75h16.5M8 3.5v3.5M16 3.5v3.5M7.75 13.5h3M7.75 16.5h6"/></symbol>
+    <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.25"/><path d="M12 6.25A5.75 5.75 0 0 1 17.75 12"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4.75" width="14" height="15.75" rx="2"/><path d="M9 4.75V3.5h6v1.25M8.5 10h7M8.5 13.5h7M8.5 17h4"/></symbol>
+    <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M4 9.75v4.5h3l7.5 4.25V5.5L7 9.75z"/><path d="M17.5 9a4.25 4.25 0 0 1 0 6"/><path d="M7.5 14.5 9 19.5"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.75" y="4.75" width="16.5" height="14.5" rx="2"/><circle cx="9" cy="10" r="1.75"/><path d="m4.25 17.5 5.25-4.75 4 3.5 2.5-2.25 4 3.5"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.75v.25"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3.75h6l-1 5.5 3.25 3V14H6.75v-1.75L10 9.25z"/><path d="M12 14v6.25"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><path d="M4.5 6.5h.5M4.5 12h.5M4.5 17.5h.5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4.25h-4.25"/></symbol>
+    <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M8.5 7.4A5.5 5.5 0 0 1 17.2 10 3.75 3.75 0 0 1 19 17.1"/><path d="M15.5 18H7.25a4 4 0 0 1-1.1-7.85"/><path d="m3.5 3.5 17 17"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6v5.5c0 4.25-3 7.5-7 9-4-1.5-7-4.75-7-9V6z"/><path d="M12 8.5v4.5M12 16v.25"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3.25 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.75 19.5h18.5z"/><path d="M12 10v4.5M12 17.25v.25"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4.25 4.25 0 0 1 7-3.2A4.25 4.25 0 0 1 19 10c0 5.5-7 10-7 10z"/></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.25 4.25M11 8.5v5M8.5 11h5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.25"/><path d="M12 2.75v2.5M12 18.75v2.5M2.75 12h2.5M18.75 12h2.5M5.45 5.45l1.75 1.75M16.8 16.8l1.75 1.75M18.55 5.45 16.8 7.2M7.2 16.8l-1.75 1.75"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.25 14.5A8.25 8.25 0 0 1 9.5 3.75a8.25 8.25 0 1 0 10.75 10.75z"/><path d="M16.5 4.5v2M15.5 5.5h2"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.75" y="9" width="16.5" height="4" rx="1"/><path d="M5.5 13v7h13v-7M12 9v11"/><path d="M12 9H8.75a2.25 2.25 0 1 1 2.1-3.05L12 9zm0 0h3.25a2.25 2.25 0 1 0-2.1-3.05L12 9z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.75 19c0-3 2.5-5 5.25-5s5.25 2 5.25 5"/><circle cx="16.5" cy="9.5" r="2.25"/><path d="M15.5 14.25c2.25.25 4.25 1.75 4.75 4.25"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11.5m0 0-4.25-4.25M12 15.5l4.25-4.25"/><path d="M4.5 18.5v1.75h15V18.5"/></symbol>
+  </svg>
+
+  <header class="app-header">
+    <div class="app-header__inner">
+      <div class="brand" id="brand">
+        <span class="brand__mark" aria-hidden="true">7C</span>
+        <div class="brand__text">
+          <h1 class="brand__title">Ruang Kelas</h1>
+          <p class="brand__sub">SMPN 62 - SURABAYA</p>
+        </div>
+      </div>
+
+      <p class="status-pill" id="data-status" data-state="online" title="Data kelas dimuat dari file data/class-data.js.">
+        <span class="status-pill__dot" aria-hidden="true"></span>
+        <span class="visually-hidden">Status data: </span>
+        <span class="status-pill__text" id="data-status-text">Siap</span>
+      </p>
+
+      <button class="sky-switch" id="theme-switch" type="button" role="switch" aria-checked="true" aria-label="Mode malam">
+        <span class="sky-switch__track" aria-hidden="true">
+          <span class="sky-switch__stars"></span>
+          <span class="sky-switch__orb">
+            <svg class="icon sky-switch__icon sky-switch__icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+            <svg class="icon sky-switch__icon sky-switch__icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+          </span>
+        </span>
+        <span class="sky-switch__label" id="theme-switch-label" aria-hidden="true">Malam</span>
+      </button>
+    </div>
+  </header>
+
+  <p class="offline-notice" id="offline-notice" role="status" hidden>
+    <svg class="icon icon--sm" aria-hidden="true"><use href="#i-cloud-off"/></svg>
+    <span>Kamu sedang offline. Yang tampil adalah versi terakhir yang tersimpan di perangkat ini.</span>
+  </p>
+
+  <main class="app-main" id="main" tabindex="-1">
+    <noscript>
+      <p class="noscript-note">Website ini butuh JavaScript. Nyalakan JavaScript di pengaturan browser, lalu muat ulang halaman.</p>
+    </noscript>
+
+    <!-- ===================== BERANDA ===================== -->
+    <section class="view view--beranda" id="view-beranda" data-view="beranda" aria-labelledby="h-beranda">
+      <h2 class="visually-hidden" id="h-beranda" tabindex="-1" data-view-heading>Beranda</h2>
+
+      <article class="hero" id="hero-stage" aria-labelledby="hero-title">
+        <div class="pull-tag-stage" id="pull-tag-stage">
+          <svg class="pull-tag__cord" viewBox="0 0 120 180" aria-hidden="true" focusable="false">
+            <path id="pull-tag-path" d="M60 0 Q60 28 60 54"/>
+          </svg>
+          <button class="pull-tag" id="pull-tag" type="button" aria-label="Tarik kartu 7C ke bawah untuk animasi sambutan">
+            <span class="pull-tag__hole" aria-hidden="true"></span>
+            <span class="pull-tag__code">7C</span>
+            <span class="pull-tag__hint">Tarik ke bawah</span>
+          </button>
+        </div>
+        <div class="hero__drops" id="hero-drops" aria-hidden="true">
+          <span class="hero-drop-pill hero-drop-pill--1">Jadwal 7C</span>
+          <span class="hero-drop-pill hero-drop-pill--2">29 Siswa</span>
+          <span class="hero-drop-pill hero-drop-pill--3">Piket &amp; Momen</span>
+        </div>
+        <p class="eyebrow eyebrow--accent" id="hero-eyebrow">Papan kabar kelas</p>
+        <h3 class="hero__title" id="hero-title">Kabar kelas hari ini</h3>
+        <p class="hero__text" id="hero-text">Jadwal, PR, ulangan, dan pengumuman kelas dikumpulkan di papan ini.</p>
+        <p class="hero__now">
+          <span class="hero__dot" aria-hidden="true"></span>
+          <time class="hero__time" id="hero-clock"></time>
+        </p>
+        <svg class="hero__rings" viewBox="0 0 300 300" aria-hidden="true" focusable="false">
+          <circle cx="150" cy="150" r="46"/>
+          <circle cx="150" cy="150" r="80"/>
+          <circle cx="150" cy="150" r="114"/>
+          <circle cx="150" cy="150" r="148"/>
+        </svg>
+      </article>
+
+      <section class="board-block board-block--ruled" aria-labelledby="h-home-jadwal">
+        <header class="board-block__head">
+          <p class="eyebrow" id="home-jadwal-eyebrow">Jadwal</p>
+          <h3 class="board-block__title" id="h-home-jadwal">Jadwal pelajaran</h3>
+        </header>
+        <div id="home-jadwal-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-calendar"/></svg>
+            <p>Jadwal pelajaran belum diisi.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board-block board-block--ledger" aria-labelledby="h-home-tugas">
+        <header class="board-block__head">
+          <p class="eyebrow" id="home-tugas-eyebrow">Tugas &amp; ulangan</p>
+          <h3 class="board-block__title" id="h-home-tugas">PR dan ulangan terdekat</h3>
+        </header>
+        <div id="home-tugas-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-clipboard"/></svg>
+            <p>Belum ada PR atau ulangan yang dicatat.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board-block board-block--note" aria-labelledby="h-home-pengumuman">
+        <header class="board-block__head">
+          <p class="eyebrow">Pengumuman</p>
+          <h3 class="board-block__title" id="h-home-pengumuman">Pengumuman terbaru</h3>
+        </header>
+        <div id="home-pengumuman-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-megaphone"/></svg>
+            <p>Belum ada pengumuman.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ===================== KELAS ===================== -->
+    <section class="view" id="view-kelas" data-view="kelas" aria-labelledby="h-kelas" hidden>
+      <header class="view__head">
+        <p class="eyebrow">Info kelas</p>
+        <h2 class="view__title" id="h-kelas" tabindex="-1" data-view-heading>Kelas</h2>
+      </header>
+      <div class="divider" aria-hidden="true"><span></span></div>
+
+      <section class="board-block board-block--paper" aria-labelledby="h-deskripsi">
+        <h3 class="board-block__title" id="h-deskripsi">Deskripsi Kelas</h3>
+        <div id="kelas-deskripsi-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-info"/></svg>
+            <p>Deskripsi kelas belum ditulis.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board-block board-block--ledger" aria-labelledby="h-pr">
+        <header class="board-block__head">
+          <p class="eyebrow" id="kelas-pr-eyebrow">Pekerjaan rumah</p>
+          <h3 class="board-block__title" id="h-pr">PR</h3>
+        </header>
+        <div id="kelas-pr-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-clipboard"/></svg>
+            <p>Belum ada PR.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board-block board-block--ledger" aria-labelledby="h-ulangan">
+        <header class="board-block__head">
+          <p class="eyebrow" id="kelas-ulangan-eyebrow">Evaluasi</p>
+          <h3 class="board-block__title" id="h-ulangan">Jadwal Ulangan</h3>
+        </header>
+        <div id="kelas-ulangan-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-calendar"/></svg>
+            <p>Belum ada jadwal ulangan.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board-block board-block--ledger" aria-labelledby="h-kisi">
+        <header class="board-block__head">
+          <p class="eyebrow">Panduan belajar</p>
+          <h3 class="board-block__title" id="h-kisi">Kisi-kisi Ulangan</h3>
+        </header>
+        <div id="kelas-kisi-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-list"/></svg>
+            <p>Belum ada kisi-kisi.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board-block board-block--note" aria-labelledby="h-kelas-pengumuman">
+        <header class="board-block__head">
+          <p class="eyebrow">Papan kabar</p>
+          <h3 class="board-block__title" id="h-kelas-pengumuman">Pengumuman</h3>
+        </header>
+        <div id="kelas-pengumuman-body">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-megaphone"/></svg>
+            <p>Belum ada pengumuman.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="custom-sections" id="kelas-custom-sections"></div>
+
+      <!-- Jadwal Piket Kelas (Bonus 4.9) -->
+      <section class="board-block board-block--ruled" id="kelas-piket-section" aria-labelledby="h-piket">
+        <header class="board-block__head">
+          <p class="eyebrow" id="kelas-piket-eyebrow">Kebersihan &amp; ketertiban</p>
+          <h3 class="board-block__title" id="h-piket">Jadwal Piket Kelas</h3>
+        </header>
+        <div id="kelas-piket-body"></div>
+      </section>
+
+      <!-- Ulang Tahun Teman Kelas (Bonus 4.9) -->
+      <section class="board-block board-block--paper" id="kelas-bday-section" aria-labelledby="h-ultah">
+        <header class="board-block__head">
+          <p class="eyebrow">Hari spesial</p>
+          <h3 class="board-block__title" id="h-ultah">Ulang Tahun Teman Kelas</h3>
+        </header>
+        <div id="kelas-bday-body"></div>
+      </section>
+    </section>
+
+    <!-- ===================== JADWAL ===================== -->
+    <section class="view" id="view-jadwal" data-view="jadwal" aria-labelledby="h-jadwal" hidden>
+      <header class="view__head">
+        <p class="eyebrow">Jadwal harian</p>
+        <h2 class="view__title" id="h-jadwal" tabindex="-1" data-view-heading>Jadwal</h2>
+      </header>
+      <div class="divider" aria-hidden="true"><span></span></div>
+      <div class="schedule-toolbar">
+        <p class="field-hint" id="jadwal-mode-note"></p>
+        <button class="button" id="jadwal-toggle-all" type="button" aria-pressed="false" hidden>Lihat semua jadwal</button>
+      </div>
+      <div id="jadwal-body">
+        <section class="board-block board-block--ruled" aria-label="Jadwal pelajaran">
+          <div class="empty-state">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-calendar"/></svg>
+            <p>Jadwal pelajaran belum diisi.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ===================== MOMEN ===================== -->
+    <section class="view" id="view-momen" data-view="momen" aria-labelledby="h-momen" hidden>
+      <header class="view__head">
+        <p class="eyebrow">Galeri kelas</p>
+        <h2 class="view__title" id="h-momen" tabindex="-1" data-view-heading>Piringan Momen</h2>
+      </header>
+      <div class="divider" aria-hidden="true"><span></span></div>
+
+      <div class="momen-toolbar" id="momen-toolbar">
+        <div class="momen-filters">
+          <div class="filter-field">
+            <label for="momen-filter-album">Album</label>
+            <select id="momen-filter-album">
+              <option value="all">Semua album</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="momen-filter-month">Bulan</label>
+            <select id="momen-filter-month">
+              <option value="all">Semua bulan</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="momen-filter-tag">Tag / Acara</label>
+            <select id="momen-filter-tag">
+              <option value="all">Semua tag</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mode-switch" role="group" aria-label="Mode tampilan galeri">
+          <button class="button mode-switch__btn" id="momen-mode-disc" type="button" aria-pressed="true">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-disc"/></svg>
+            <span>Piringan</span>
+          </button>
+          <button class="button mode-switch__btn" id="momen-mode-list" type="button" aria-pressed="false">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-grid"/></svg>
+            <span>Daftar</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="visually-hidden" id="momen-live" aria-live="polite" aria-atomic="true"></p>
+
+      <!-- Disc view ("Piringan") -->
+      <section class="board-block board-block--paper momen-disc-section" id="momen-disc-section" aria-label="Piringan foto kelas">
+        <div class="disc-stage" id="disc-stage" tabindex="0" role="region" aria-label="Piringan Momen. Gunakan tombol panah kiri dan kanan atau geser untuk memutar foto.">
+          <svg class="disc-stage__platter" viewBox="0 0 680 340" aria-hidden="true" focusable="false">
+            <circle cx="340" cy="340" r="326"/>
+            <circle cx="340" cy="340" r="290"/>
+            <circle cx="340" cy="340" r="250"/>
+            <circle cx="340" cy="340" r="196"/>
+          </svg>
+          <div class="disc-stage__rim" id="disc-rim"></div>
+        </div>
+
+        <div class="disc-hub" id="disc-hub">
+          <span class="disc-hub__spindle" aria-hidden="true"></span>
+          <p class="eyebrow eyebrow--accent" id="disc-hub-meta">Album · Bulan</p>
+          <h3 class="disc-hub__caption" id="disc-hub-caption">Pilih momen</h3>
+          <p class="disc-hub__info" id="disc-hub-info"></p>
+          <div class="disc-hub__actions">
+            <button class="button" id="disc-like-btn" type="button" aria-pressed="false">
+              <svg class="icon icon--sm" aria-hidden="true"><use href="#i-heart"/></svg>
+              <span id="disc-like-label">Suka</span>
+            </button>
+            <button class="button" id="disc-open-btn" type="button">
+              <svg class="icon icon--sm" aria-hidden="true"><use href="#i-zoom"/></svg>
+              <span>Perbesar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="disc-controls">
+          <button class="button" id="disc-prev-btn" type="button">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-chev-left"/></svg>
+            <span>Sebelumnya</span>
+          </button>
+          <p class="disc-controls__pos" id="disc-pos-text">0 / 0</p>
+          <button class="button" id="disc-next-btn" type="button">
+            <span>Berikutnya</span>
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-chev-right"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- List view ("Daftar") -->
+      <section class="board-block board-block--paper" id="momen-list-section" aria-label="Daftar foto kelas" hidden>
+        <div class="momen-grid" id="momen-list-grid"></div>
+      </section>
+
+      <!-- Empty state when filter matches 0 items -->
+      <section class="board-block board-block--paper" id="momen-empty-section" hidden>
+        <div class="empty-state">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="#i-image"/></svg>
+          <p id="momen-empty-text">Belum ada foto yang cocok dengan filter ini.</p>
+        </div>
+      </section>
+    </section>
+
+    <!-- ===================== LAINNYA ===================== -->
+    <section class="view" id="view-lainnya" data-view="lainnya" aria-labelledby="h-lainnya" hidden>
+      <header class="view__head">
+        <p class="eyebrow">Fitur kelas &amp; pengaturan</p>
+        <h2 class="view__title" id="h-lainnya" tabindex="-1" data-view-heading>Lainnya</h2>
+      </header>
+      <div class="divider" aria-hidden="true"><span></span></div>
+
+      <!-- Roda Putar Siswa (Spin Wheel) -->
+      <section class="board-block board-block--paper wheel-section" id="wheel-section" aria-labelledby="h-roda">
+        <header class="board-block__head">
+          <p class="eyebrow eyebrow--accent">Undian adil</p>
+          <h3 class="board-block__title" id="h-roda">Roda Putar Siswa</h3>
+          <p class="field-hint" id="wheel-status-text">Memuat daftar siswa…</p>
+        </header>
+
+        <div class="wheel-layout">
+          <div class="wheel-stage">
+            <canvas class="wheel-canvas" id="wheel-canvas" width="300" height="300" aria-label="Roda putar nama siswa"></canvas>
+            <button class="button button--accent wheel-spin-btn" id="wheel-spin-btn" type="button">
+              Putar Roda
+            </button>
+          </div>
+
+          <div class="wheel-controls">
+            <fieldset class="wheel-options">
+              <legend class="accent-picker__legend">Pengaturan putaran</legend>
+              <label class="check-option">
+                <input type="checkbox" id="wheel-exclude-picked" checked>
+                <span>Kecualikan siswa yang sudah terpilih</span>
+              </label>
+              <label class="check-option">
+                <input type="checkbox" id="wheel-mute-toggle">
+                <span>Bisu (matikan suara ketukan)</span>
+              </label>
+              <label class="check-option">
+                <input type="checkbox" id="wheel-vibrate-toggle">
+                <span>Getar saat berputar (jika perangkat mendukung)</span>
+              </label>
+            </fieldset>
+
+            <div class="wheel-actions">
+              <button class="button" id="wheel-reset-picked-btn" type="button">Reset siswa terpilih</button>
+              <button class="button" id="wheel-clear-history-btn" type="button">Hapus riwayat</button>
+            </div>
+
+            <div class="wheel-history">
+              <h4 class="wheel-history__title">Riwayat terpilih</h4>
+              <div id="wheel-history-body"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Laporan via WhatsApp -->
+      <section class="board-block board-block--ledger" id="report-section" aria-labelledby="h-laporan">
+        <header class="board-block__head">
+          <p class="eyebrow eyebrow--accent">Laporan kelas</p>
+          <h3 class="board-block__title" id="h-laporan">Laporan via WhatsApp</h3>
+          <p class="field-hint" id="report-wa-note">Memeriksa pengaturan nomor WhatsApp…</p>
+        </header>
+
+        <form class="form-stack" id="report-form" novalidate>
+          <div class="form-field">
+            <label for="report-name">Nama pelapor <span aria-hidden="true">*</span></label>
+            <input id="report-name" name="name" type="text" maxlength="80" required placeholder="Contoh: Budi (Absen 05)">
+          </div>
+
+          <div class="form-field">
+            <label for="report-message">Pesan laporan <span aria-hidden="true">*</span></label>
+            <textarea id="report-message" name="message" rows="3" maxlength="2000" required placeholder="Tulis laporan singkat dan jelas…"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="report-attachments">Lampiran gambar (opsional, maks. 3 gambar @ 3 MB)</label>
+            <input id="report-attachments" name="attachments" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+          </div>
+
+          <div class="attachments-box" id="report-attachments-box" hidden>
+            <p class="attachments-box__notice" id="report-attachments-notice"></p>
+            <div class="attachments-box__list" id="report-attachments-list"></div>
+          </div>
+
+          <p class="form-error" id="report-form-error" role="alert" hidden></p>
+
+          <div class="form-actions">
+            <button class="button button--accent" id="report-submit-btn" type="submit">
+              Buka Laporan di WhatsApp
+            </button>
+          </div>
+
+          <div class="report-result" id="report-result-box" hidden>
+            <p>
+              Status laporan:
+              <span class="stamp-badge" data-kind="urgent">
+                <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
+                <span id="report-result-status">Dibuka di WhatsApp</span>
+              </span>
+            </p>
+            <a class="button" id="report-result-link" href="https://wa.me/" target="_blank" rel="noopener noreferrer">
+              Buka tautan WhatsApp lagi
+            </a>
+          </div>
+        </form>
+      </section>
+
+      <!-- Kotak Saran -->
+      <section class="board-block board-block--paper" id="suggestion-section" aria-labelledby="h-saran">
+        <header class="board-block__head">
+          <p class="eyebrow">Masukan teman kelas</p>
+          <h3 class="board-block__title" id="h-saran">Kotak Saran</h3>
+          <p class="field-hint">Tulis saranmu untuk kelas, lalu salin teksnya atau unduh sebagai file catatan.</p>
+        </header>
+
+        <form class="form-stack" id="suggestion-form" novalidate>
+          <div class="form-field">
+            <label for="suggestion-title">Judul saran <span aria-hidden="true">*</span></label>
+            <input id="suggestion-title" name="title" type="text" maxlength="120" required placeholder="Contoh: Usul jadwal piket menyiram tanaman">
+          </div>
+
+          <div class="form-field">
+            <label for="suggestion-name">Nama (opsional, boleh dikosongkan)</label>
+            <input id="suggestion-name" name="name" type="text" maxlength="80" placeholder="Anonim">
+          </div>
+
+          <div class="form-field">
+            <label for="suggestion-message">Isi saran <span aria-hidden="true">*</span></label>
+            <textarea id="suggestion-message" name="message" rows="3" maxlength="2000" required placeholder="Tulis usul atau saran untuk kenyamanan kelas…"></textarea>
+          </div>
+
+          <p class="form-error" id="suggestion-form-error" role="alert" hidden></p>
+
+          <div class="form-actions">
+            <button class="button button--accent" id="suggestion-copy-btn" type="button">Salin teks</button>
+            <button class="button" id="suggestion-download-btn" type="button">Unduh</button>
+          </div>
+
+          <pre class="suggestion-preview" id="suggestion-preview" hidden></pre>
+        </form>
+      </section>
+
+      <section class="board-block board-block--paper" aria-labelledby="h-tampilan">
+        <h3 class="board-block__title" id="h-tampilan">Tampilan</h3>
+        <fieldset class="accent-picker" id="accent-picker">
+          <legend class="accent-picker__legend">Warna aksen</legend>
+          <p class="field-hint" id="accent-hint">Pilihan ini hanya tersimpan di browser ini. Di mode malam, warnanya otomatis dibuat lebih terang.</p>
+          <div class="accent-picker__options">
+            <label class="accent-option"><input type="radio" name="accent" value="red" aria-describedby="accent-hint"><span class="accent-option__swatch" data-swatch="red" aria-hidden="true"></span><span>Merah spidol <small>(malam: kuning hangat)</small></span></label>
+            <label class="accent-option"><input type="radio" name="accent" value="periwinkle" aria-describedby="accent-hint"><span class="accent-option__swatch" data-swatch="periwinkle" aria-hidden="true"></span><span>Periwinkle</span></label>
+            <label class="accent-option"><input type="radio" name="accent" value="green" aria-describedby="accent-hint"><span class="accent-option__swatch" data-swatch="green" aria-hidden="true"></span><span>Hijau</span></label>
+            <label class="accent-option"><input type="radio" name="accent" value="teal" aria-describedby="accent-hint"><span class="accent-option__swatch" data-swatch="teal" aria-hidden="true"></span><span>Teal</span></label>
+            <label class="accent-option"><input type="radio" name="accent" value="orange" aria-describedby="accent-hint"><span class="accent-option__swatch" data-swatch="orange" aria-hidden="true"></span><span>Oranye</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Pasang sebagai Aplikasi (PWA Install Guide - Bonus 4.9) -->
+      <section class="board-block board-block--paper" id="install-app-section" aria-labelledby="h-install">
+        <header class="board-block__head">
+          <p class="eyebrow eyebrow--accent">Akses cepat di HP</p>
+          <h3 class="board-block__title" id="h-install">Pasang sebagai Aplikasi</h3>
+          <p class="field-hint">Buka Ruang Kelas langsung dari layar utama HP seperti aplikasi asli, tetap bisa dibuka saat offline.</p>
+        </header>
+        <div class="form-actions" id="install-prompt-wrap" hidden>
+          <button class="button button--accent" id="install-prompt-btn" type="button">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-download"/></svg>
+            <span>Pasang Aplikasi Sekarang</span>
+          </button>
+        </div>
+        <ul class="plain-list">
+          <li>
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-download"/></svg>
+            <span><strong>Android (Chrome / Edge):</strong> ketuk menu titik tiga di kanan atas browser, lalu pilih <strong>Tambahkan ke layar utama</strong> atau <strong>Instal aplikasi</strong>.</span>
+          </li>
+          <li>
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-download"/></svg>
+            <span><strong>iPhone / iPad (Safari):</strong> ketuk tombol <strong>Bagikan (Share)</strong> di bawah layar, lalu pilih <strong>Tambahkan ke Layar Utama (Add to Home Screen)</strong>.</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="board-block board-block--note" aria-labelledby="h-tentang">
+        <h3 class="board-block__title" id="h-tentang">Tentang data di website ini</h3>
+        <ul class="plain-list">
+          <li>
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-book"/></svg>
+            <span>Semua isi papan kabar dan foto kelas dikelola langsung melalui file <code>data/class-data.js</code> dan folder <code>assets/photos/</code>.</span>
+          </li>
+          <li>
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-shield"/></svg>
+            <span>Ini website proyek kelas di repository publik. Jangan menulis data pribadi atau rahasia di sini.</span>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer scroll-reveal" aria-label="Penutup Ruang Kelas">
+    <div class="site-footer__glow" aria-hidden="true"></div>
+    <div class="site-footer__inner">
+      <p class="site-footer__eyebrow">Kelas 7C · SMPN 62 Surabaya</p>
+      <h2 class="site-footer__title">Satu papan kabar untuk seluruh kelas.</h2>
+      <p class="site-footer__meta">Jadwal, tugas, momen, dan piket kelas tersimpan rapi dan bisa dibuka kapan saja, termasuk saat offline.</p>
+    </div>
+  </footer>
+
+  <!-- Full-screen photo viewer modal (focus-trapped, Escape closes) -->
+  <div class="photo-modal" id="photo-modal" role="dialog" aria-modal="true" aria-labelledby="photo-modal-caption" hidden>
+    <div class="photo-modal__card">
+      <header class="photo-modal__head">
+        <p class="eyebrow" id="photo-modal-meta"></p>
+        <div class="photo-modal__head-actions">
+          <button class="button" id="photo-modal-zoom" type="button" aria-pressed="false">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-zoom"/></svg>
+            <span id="photo-modal-zoom-label">Perbesar 2x</span>
+          </button>
+          <button class="button" id="photo-modal-close" type="button" aria-label="Tutup tampilan foto">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-close"/></svg>
+            <span>Tutup</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="photo-modal__stage" id="photo-modal-stage">
+        <img class="photo-modal__img" id="photo-modal-img" src="data:," alt="">
+      </div>
+
+      <footer class="photo-modal__foot">
+        <div class="photo-modal__text">
+          <h3 class="photo-modal__caption" id="photo-modal-caption"></h3>
+          <p class="photo-modal__sub" id="photo-modal-sub"></p>
+        </div>
+        <div class="photo-modal__nav">
+          <button class="button" id="photo-modal-prev" type="button">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-chev-left"/></svg>
+            <span>Sebelumnya</span>
+          </button>
+          <button class="button" id="photo-modal-next" type="button">
+            <span>Berikutnya</span>
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#i-chev-right"/></svg>
+          </button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Spin Wheel Winner ("Selamat!") modal -->
+  <div class="photo-modal" id="wheel-winner-modal" role="dialog" aria-modal="true" aria-labelledby="wheel-winner-heading" hidden>
+    <div class="wheel-popup-card wheel-popup-card--win">
+      <p class="eyebrow eyebrow--accent" id="wheel-winner-heading">Selamat!</p>
+      <p class="wheel-winner-name" id="wheel-winner-name"></p>
+      <p class="field-hint">Terpilih melalui undian acak Roda Putar Kelas.</p>
+      <div class="wheel-popup-actions">
+        <button class="button button--accent" id="wheel-winner-close" type="button">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-screen confetti layer (decorative, drawn by assets/js/confetti.js) -->
+  <canvas class="confetti-canvas" id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- Destructive action confirmation modal -->
+  <div class="photo-modal" id="wheel-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="wheel-confirm-heading" hidden>
+    <div class="wheel-popup-card">
+      <p class="eyebrow" id="wheel-confirm-heading">Konfirmasi</p>
+      <p class="wheel-confirm-text" id="wheel-confirm-text"></p>
+      <div class="wheel-popup-actions">
+        <button class="button" id="wheel-confirm-cancel" type="button">Batal</button>
+        <button class="button button--accent" id="wheel-confirm-ok" type="button">Ya, lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="update-banner" id="update-banner" role="status" hidden>
+    <svg class="icon icon--sm" aria-hidden="true"><use href="#i-refresh"/></svg>
+    <p class="update-banner__text">Versi baru tersedia</p>
+    <button class="button button--accent" id="update-reload" type="button">Muat ulang</button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <nav class="bottom-nav" aria-label="Navigasi utama">
+    <ul class="bottom-nav__list" id="bottom-nav">
+      <li><button class="nav-item" type="button" data-target="beranda" aria-current="page">
+        <svg class="icon" aria-hidden="true"><use href="#i-home"/></svg><span class="nav-item__label">Beranda</span>
+        <svg class="nav-item__mark" viewBox="0 0 48 8" aria-hidden="true" focusable="false"><path d="M2 5.5c7-2.5 14 .5 22-1.25S39 2 46 4"/></svg>
+      </button></li>
+      <li><button class="nav-item" type="button" data-target="kelas">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span class="nav-item__label">Kelas</span>
+        <span class="nav-item__dot" data-nav-dot="kelas" aria-label="Ada isi baru di tab Kelas" hidden></span>
+        <svg class="nav-item__mark" viewBox="0 0 48 8" aria-hidden="true" focusable="false"><path d="M2 5.5c7-2.5 14 .5 22-1.25S39 2 46 4"/></svg>
+      </button></li>
+      <li><button class="nav-item" type="button" data-target="jadwal">
+        <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg><span class="nav-item__label">Jadwal</span>
+        <span class="nav-item__dot" data-nav-dot="jadwal" aria-label="Ada pembaruan jadwal" hidden></span>
+        <svg class="nav-item__mark" viewBox="0 0 48 8" aria-hidden="true" focusable="false"><path d="M2 5.5c7-2.5 14 .5 22-1.25S39 2 46 4"/></svg>
+      </button></li>
+      <li><button class="nav-item" type="button" data-target="momen">
+        <svg class="icon" aria-hidden="true"><use href="#i-disc"/></svg><span class="nav-item__label">Momen</span>
+        <span class="nav-item__dot" data-nav-dot="momen" aria-label="Ada foto baru di tab Momen" hidden></span>
+        <svg class="nav-item__mark" viewBox="0 0 48 8" aria-hidden="true" focusable="false"><path d="M2 5.5c7-2.5 14 .5 22-1.25S39 2 46 4"/></svg>
+      </button></li>
+      <li><button class="nav-item" type="button" data-target="lainnya">
+        <svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg><span class="nav-item__label">Lainnya</span>
+        <svg class="nav-item__mark" viewBox="0 0 48 8" aria-hidden="true" focusable="false"><path d="M2 5.5c7-2.5 14 .5 22-1.25S39 2 46 4"/></svg>
+      </button></li>
+    </ul>
+  </nav>
+</body>
+</html>
