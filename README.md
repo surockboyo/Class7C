@@ -2,8 +2,6 @@
 
 Website papan kabar kelas: info kelas, PR, jadwal ulangan, kisi-kisi, pengumuman, jadwal harian pintar, roda putar, galeri foto, laporan via WhatsApp, dan kotak saran. Semua isi website dan foto dikelola langsung melalui file `data/class-data.js` dan folder `assets/photos/` di VS Code (tanpa Dashboard dan tanpa database eksternal).
 
-> **Status sekarang: Fase 9 selesai (Fitur Bonus, Sakelar Siang/Malam Matahari→Bulan, & Jadwal Resmi Kelas 7C).** Jadwal KBM Semester Ganjil 2026/2027 untuk **Kelas 7C SMPN 62 Surabaya** sudah terisi lengkap beserta jamnya, sakelar tema memakai animasi transisi **Siang (Matahari) ke Malam (Bulan & Bintang)**, dan seluruh 5 fitur bonus (ceklis PR per browser, ulang tahun + hitung mundur hari, jadwal piket, panduan pasang aplikasi, serta titik penanda konten baru di tab) sudah selesai (**Completed**).
-
 ## Menjalankan di Laptop (Lokal)
 
 Karena website ini memakai JavaScript module (`type="module"`) dan Service Worker, jangan buka `index.html` dengan klik dua kali (`file://`). Jalankan server lokal sederhana di PowerShell. Salin perintahnya saja, **jangan** ikut menyalin baris tiga backtick:
